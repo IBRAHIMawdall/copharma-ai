@@ -1,12 +1,41 @@
+import Link from 'next/link'
+import { useApp } from '../context/AppContext'
+import ThemeLanguageSelector from './ThemeLanguageSelector'
+
 export default function Navbar() {
+  const { t } = useApp()
+
   return (
-    <nav className="bg-blue-600 text-white p-4 flex justify-between">
-      <span className="font-bold">CoPharma.ai</span>
-      <div className="space-x-4">
-        <a href="/" className="hover:underline">الرئيسية</a>
-        <a href="/services" className="hover:underline">الخدمات</a>
-        <a href="/shop" className="hover:underline">المتجر</a>
+    <nav className="sticky top-0 z-50 bg-white dark:bg-gray-800 shadow-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-20">
+          <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+            <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">CoPharma.ai</span>
+          </Link>
+          
+          <div className="hidden md:flex items-center space-x-8 rtl:space-x-reverse">
+            <NavLink href="/">{t('nav.home')}</NavLink>
+            <NavLink href="/services">{t('nav.services')}</NavLink>
+            <NavLink href="/products">{t('nav.products')}</NavLink>
+            <NavLink href="/blog">{t('nav.blog')}</NavLink>
+            <NavLink href="/about">{t('nav.about')}</NavLink>
+            <NavLink href="/contact">{t('nav.contact')}</NavLink>
+          </div>
+
+          <ThemeLanguageSelector />
+        </div>
       </div>
     </nav>
+  )
+}
+
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link 
+      href={href} 
+      className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 tracking-wide transition duration-300"
+    >
+      {children}
+    </Link>
   )
 }
