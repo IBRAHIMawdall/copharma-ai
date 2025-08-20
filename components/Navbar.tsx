@@ -3,7 +3,7 @@ import { useApp } from '../context/AppContext'
 import ThemeLanguageSelector from './ThemeLanguageSelector'
 
 export default function Navbar() {
-  const { t } = useApp()
+  const { t, lang, changeLang, theme, changeTheme } = useApp()
 
   return (
     <nav className="sticky top-0 z-50 bg-white dark:bg-gray-800 shadow-md">
@@ -22,7 +22,14 @@ export default function Navbar() {
             <NavLink href="/contact">{t('nav.contact')}</NavLink>
           </div>
 
-          <ThemeLanguageSelector />
+          <div className="flex items-center">
+            <ThemeLanguageSelector 
+              currentLang={lang}
+              onLanguageChange={changeLang}
+              currentTheme={theme}
+              onThemeChange={changeTheme}
+            />
+          </div>
         </div>
       </div>
     </nav>
