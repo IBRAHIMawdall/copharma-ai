@@ -1,9 +1,21 @@
-import { useState } from 'react'
+import { useState, FormEvent, ChangeEvent } from 'react'
 import { motion } from 'framer-motion'
 
-export default function Comments({ articleId }) {
+interface Comment {
+  id: number;
+  user: string;
+  text: string;
+  date: string;
+  likes: number;
+}
+
+interface CommentsProps {
+  articleId: string;
+}
+
+export default function Comments({ articleId }: CommentsProps) {
   const [comment, setComment] = useState('')
-  const [comments, setComments] = useState([
+  const [comments, setComments] = useState<Comment[]>([
     {
       id: 1,
       user: "أحمد محمد",
@@ -13,13 +25,13 @@ export default function Comments({ articleId }) {
     }
   ])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!comment.trim()) return
 
-    const newComment = {
+    const newComment: Comment = {
       id: comments.length + 1,
-      user: "زائر",
+      user: "زائر", // In a real app, this would come from user session
       text: comment,
       date: new Date().toISOString().split('T')[0],
       likes: 0
@@ -29,6 +41,13 @@ export default function Comments({ articleId }) {
     setComment('')
   }
 
+  const handleLike = (id: number) => {
+    const updatedComments = comments.map(c => 
+      c.id === id ? { ...c, likes: c.likes + 1 } : c
+    )
+    setComments(updatedComments)
+  }
+
   return (
     <div className="mt-12">
       <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-6">التعليقات</h3>
@@ -36,7 +55,7 @@ export default function Comments({ articleId }) {
       <form onSubmit={handleSubmit} className="mb-8">
         <textarea
           value={comment}
-          onChange={(e) => setComment(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setComment(e.target.value)}
           placeholder="أضف تعليقك..."
           className="w-full p-4 border rounded-lg focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
           rows={3}
@@ -68,12 +87,7 @@ export default function Comments({ articleId }) {
                 </div>
               </div>
               <button 
-                onClick={() => {
-                  const updatedComments = comments.map(c => 
-                    c.id === comment.id ? { ...c, likes: c.likes + 1 } : c
-                  )
-                  setComments(updatedComments)
-                }}
+                onClick={() => handleLike(comment.id)}
                 className="flex items-center text-gray-500 hover:text-blue-600 dark:text-gray-400"
               >
                 <span className="mr-1">{comment.likes}</span>
