@@ -27,7 +27,14 @@ const faqs = [
   }
 ]
 
-const FaqItem = ({ question, answer, isOpen, onClick }) => {
+interface FaqItemProps {
+  question: string;
+  answer: string;
+  isOpen: boolean;
+  onClick: () => void;
+}
+
+const FaqItem = ({ question, answer, isOpen, onClick }: FaqItemProps) => {
   return (
     <motion.div 
       className="border-b border-gray-200 dark:border-gray-700"

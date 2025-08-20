@@ -1,6 +1,13 @@
 import { motion } from 'framer-motion'
 
-export function AnimatedFeatureCard({ icon, title, description, index }) {
+interface AnimatedFeatureCardProps {
+  icon: string;
+  title: string;
+  description: string;
+  index: number;
+}
+
+export function AnimatedFeatureCard({ icon, title, description, index }: AnimatedFeatureCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

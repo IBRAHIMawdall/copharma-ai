@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion'
+import Link from 'next/link'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Head from 'next/head'
@@ -106,9 +108,11 @@ export default function Home() {
   )
 }
 
-import Link from 'next/link'
-
-function ServiceCard({ title, description }) {
+interface ServiceCardProps {
+  title: string;
+  description: string;
+}
+function ServiceCard({ title, description }: ServiceCardProps) {
   return (
     <motion.div
       whileHover={{ scale: 1.05 }}

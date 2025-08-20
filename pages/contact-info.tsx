@@ -48,7 +48,6 @@ export default function ContactInfo() {
                     <span className="text-2xl">📞</span>
                     <div>
                       <h3 className="font-semibold">أرقام الهاتف</h3>
-                      <p className="text-gray-600">هاتف: {contactInfo.phone}</p>
                       <p className="text-gray-600">موبايل: {contactInfo.mobile}</p>
                     </div>
                   </div>

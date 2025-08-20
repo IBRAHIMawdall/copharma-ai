@@ -1,21 +1,31 @@
 import Head from 'next/head'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import { useState } from 'react'
+import { useState, ChangeEvent, FormEvent } from 'react'
 
+interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+}
 export default function Contact() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     phone: '',
     message: ''
   })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     // TODO: إضافة منطق إرسال النموذج
     console.log(formData)
     alert('تم إرسال رسالتك بنجاح!')
+  }
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   return (
@@ -54,40 +64,44 @@ export default function Contact() {
                   <div>
                     <label className="block text-gray-700 mb-2">الاسم</label>
                     <input
+                      name="name"
                       type="text"
                       required
                       className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={formData.name}
-                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      onChange={handleChange}
                     />
                   </div>
                   <div>
                     <label className="block text-gray-700 mb-2">البريد الإلكتروني</label>
                     <input
+                      name="email"
                       type="email"
                       required
                       className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={formData.email}
-                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      onChange={handleChange}
                     />
                   </div>
                   <div>
                     <label className="block text-gray-700 mb-2">رقم الهاتف</label>
                     <input
+                      name="phone"
                       type="tel"
                       className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={formData.phone}
-                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                      onChange={handleChange}
                     />
                   </div>
                   <div>
                     <label className="block text-gray-700 mb-2">الرسالة</label>
                     <textarea
+                      name="message"
                       required
                       rows={4}
                       className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={formData.message}
-                      onChange={(e) => setFormData({...formData, message: e.target.value})}
+                      onChange={handleChange}
                     ></textarea>
                   </div>
                   <button

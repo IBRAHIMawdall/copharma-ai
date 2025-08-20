@@ -1,9 +1,17 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 import { translations } from '../locales/translations'
 
-const AppContext = createContext(null)
+interface AppContextType {
+  lang: string;
+  theme: string;
+  changeLang: (newLang: string) => void;
+  changeTheme: (newTheme: string) => void;
+  t: (key: string) => string;
+}
 
-export function AppProvider({ children }) {
+const AppContext = createContext<AppContextType | null>(null)
+
+export function AppProvider({ children }: { children: ReactNode }) {
   const [lang, setLang] = useState('ar')
   const [theme, setTheme] = useState('light')
 
@@ -52,4 +60,4 @@ export function AppProvider({ children }) {
   )
 }
 
-export const useApp = () => useContext(AppContext)
+export const useApp = () => useContext(AppContext) as AppContextType

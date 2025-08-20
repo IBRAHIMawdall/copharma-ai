@@ -1,17 +1,28 @@
 import Head from 'next/head'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import { useState } from 'react'
+import { useState, ChangeEvent, FormEvent } from 'react'
 
+interface BookingData {
+  service: string;
+  date: string;
+  time: string;
+  name: string;
+  phone: string;
+  notes: string;
+}
 export default function Booking() {
-  const [booking, setBooking] = useState({
+  const [booking, setBooking] = useState<BookingData>({
     service: '',
     date: '',
     time: '',
     name: '',
     phone: '',
     notes: ''
-  })
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const services = [
     "استشارة دوائية",
@@ -20,11 +31,43 @@ export default function Booking() {
     "استشارة صحية عامة"
   ]
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // TODO: إضافة منطق حفظ الحجز
-    console.log(booking)
-    alert('تم تأكيد حجزك بنجاح!')
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setSubmitSuccess(false);
+    setSubmitError(null);
+
+    try {
+      const response = await fetch('https://formspree.io/f/YOUR_FORM_ID', { // <-- استبدل هذا بمعرف النموذج الخاص بك
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(booking),
+      });
+
+      if (response.ok) {
+        setSubmitSuccess(true);
+        setBooking({ // Reset form
+          service: '',
+          date: '',
+          time: '',
+          name: '',
+          phone: '',
+          notes: ''
+        });
+      } else {
+        throw new Error('حدث خطأ أثناء إرسال الحجز. الرجاء المحاولة مرة أخرى.');
+      }
+    } catch (error: any) {
+      setSubmitError(error.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    setBooking({ ...booking, [e.target.name]: e.target.value })
   }
 
   return (
@@ -44,10 +87,11 @@ export default function Booking() {
                 <div>
                   <label className="block text-gray-700 mb-2">نوع الخدمة</label>
                   <select
+                    name="service"
                     required
                     className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                     value={booking.service}
-                    onChange={(e) => setBooking({...booking, service: e.target.value})}
+                    onChange={handleChange}
                   >
                     <option value="">اختر الخدمة</option>
                     {services.map((service) => (
@@ -59,54 +103,59 @@ export default function Booking() {
                 <div>
                   <label className="block text-gray-700 mb-2">التاريخ</label>
                   <input
+                    name="date"
                     type="date"
                     required
                     className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                     value={booking.date}
-                    onChange={(e) => setBooking({...booking, date: e.target.value})}
+                    onChange={handleChange}
                   />
                 </div>
 
                 <div>
                   <label className="block text-gray-700 mb-2">الوقت</label>
                   <input
+                    name="time"
                     type="time"
                     required
                     className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                     value={booking.time}
-                    onChange={(e) => setBooking({...booking, time: e.target.value})}
+                    onChange={handleChange}
                   />
                 </div>
 
                 <div>
                   <label className="block text-gray-700 mb-2">الاسم</label>
                   <input
+                    name="name"
                     type="text"
                     required
                     className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                     value={booking.name}
-                    onChange={(e) => setBooking({...booking, name: e.target.value})}
+                    onChange={handleChange}
                   />
                 </div>
 
                 <div>
                   <label className="block text-gray-700 mb-2">رقم الهاتف</label>
                   <input
+                    name="phone"
                     type="tel"
                     required
                     className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                     value={booking.phone}
-                    onChange={(e) => setBooking({...booking, phone: e.target.value})}
+                    onChange={handleChange}
                   />
                 </div>
 
                 <div className="md:col-span-2">
                   <label className="block text-gray-700 mb-2">ملاحظات إضافية</label>
                   <textarea
+                    name="notes"
                     rows={4}
                     className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                     value={booking.notes}
-                    onChange={(e) => setBooking({...booking, notes: e.target.value})}
+                    onChange={handleChange}
                   ></textarea>
                 </div>
               </div>
@@ -114,11 +163,23 @@ export default function Booking() {
               <div className="mt-6">
                 <button
                   type="submit"
-                  className="w-full bg-blue-600 text-white py-3 px-4 rounded hover:bg-blue-700 transition"
+                  disabled={submitting}
+                  className="w-full bg-blue-600 text-white py-3 px-4 rounded hover:bg-blue-700 transition disabled:bg-gray-400"
                 >
-                  تأكيد الحجز
+                  {submitting ? 'جارٍ الإرسال...' : 'تأكيد الحجز'}
                 </button>
               </div>
+
+              {submitSuccess && (
+                <div className="mt-4 p-3 text-center text-green-800 bg-green-100 border border-green-300 rounded-lg">
+                  تم استلام حجزك بنجاح! سنتواصل معك قريبًا للتأكيد.
+                </div>
+              )}
+              {submitError && (
+                <div className="mt-4 p-3 text-center text-red-800 bg-red-100 border border-red-300 rounded-lg">
+                  {submitError}
+                </div>
+              )}
             </form>
           </div>
         </main>
