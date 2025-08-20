@@ -1,4 +1,9 @@
-export default function ProductCard({ name, price }) {
+interface ProductCardProps {
+  name: string;
+  price: string;
+}
+
+export default function ProductCard({ name, price }: ProductCardProps) {
   return (
     <div className="border rounded-lg p-4 shadow hover:shadow-lg transition">
       <h2 className="text-lg font-bold">{name}</h2>
