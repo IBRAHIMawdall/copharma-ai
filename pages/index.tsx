@@ -77,7 +77,7 @@ export default function Home() {
               <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-2000"></div>
             </div>
             
-            <div className="relative max-w-6xl mx-auto px-4 min-h-screen flex flex-col justify-center items-center text-center text-white">
+            <div className="relative max-w-6xl mx-auto px-4 min-h-screen flex flex-col justify-center items-center text-center text-white" dir="rtl">
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -104,7 +104,8 @@ export default function Home() {
                 initial={{ y: 50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-xl md:text-3xl mb-8 max-w-4xl leading-relaxed font-light"
+                className="text-xl md:text-3xl mb-8 max-w-4xl leading-relaxed font-light text-center"
+                style={{ fontFamily: 'Cairo, sans-serif' }}
               >
                 منصة صيدلانية ذكية لرعاية صحية شاملة ومتطورة
               </motion.p>
@@ -113,7 +114,8 @@ export default function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="text-lg md:text-xl mb-12 max-w-3xl text-blue-100"
+                className="text-lg md:text-xl mb-12 max-w-3xl text-blue-100 text-center"
+                style={{ fontFamily: 'Cairo, sans-serif' }}
               >
                 استشارات دوائية متخصصة • متابعة علاجية دقيقة • توصيل آمن للأدوية
               </motion.p>

@@ -12,14 +12,14 @@ export default function Navbar() {
   const { t } = app as AppContextType;
 
   return (
-    <nav className="sticky top-0 z-50 bg-white dark:bg-gray-800 shadow-md">
+    <nav className="sticky top-0 z-50 bg-white dark:bg-gray-800 shadow-md" dir="rtl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-            <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">CoPharma.ai</span>
+          <Link href="/" className="flex items-center">
+            <span className="text-2xl font-bold text-blue-600 dark:text-blue-400" style={{ fontFamily: 'Cairo, sans-serif' }}>CoPharma.ai</span>
           </Link>
           
-          <div className="hidden md:flex items-center space-x-8 rtl:space-x-reverse">
+          <div className="hidden md:flex items-center space-x-8 space-x-reverse">
             <NavLink href="/">{t('nav.home')}</NavLink>
             <NavLink href="/services">{t('nav.services')}</NavLink>
             <NavLink href="/products">{t('nav.products')}</NavLink>
