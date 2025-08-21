@@ -17,12 +17,42 @@ export default function Contact() {
     message: ''
   })
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    // TODO: إضافة منطق إرسال النموذج
-    console.log(formData)
-    alert('تم إرسال رسالتك بنجاح!')
-  }
+  const [submitting, setSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setSubmitSuccess(false);
+    setSubmitError(null);
+
+    try {
+      const response = await fetch('https://formspree.io/f/YOUR_FORM_ID_CONTACT', { // <-- استبدل هذا بمعرف النموذج الخاص بك
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setSubmitSuccess(true);
+        setFormData({ // Reset form
+          name: '',
+          email: '',
+          phone: '',
+          message: ''
+        });
+      } else {
+        throw new Error('حدث خطأ أثناء إرسال رسالتك. الرجاء المحاولة مرة أخرى.');
+      }
+    } catch (error: any) {
+      setSubmitError(error.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -106,11 +136,22 @@ export default function Contact() {
                   </div>
                   <button
                     type="submit"
-                    className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
+                    disabled={submitting}
+                    className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition disabled:bg-gray-400"
                   >
-                    إرسال الرسالة
+                    {submitting ? 'جارٍ الإرسال...' : 'إرسال الرسالة'}
                   </button>
                 </div>
+                {submitSuccess && (
+                  <div className="mt-4 p-3 text-center text-green-800 bg-green-100 border border-green-300 rounded-lg">
+                    تم استلام رسالتك بنجاح! سنتواصل معك قريبًا.
+                  </div>
+                )}
+                {submitError && (
+                  <div className="mt-4 p-3 text-center text-red-800 bg-red-100 border border-red-300 rounded-lg">
+                    {submitError}
+                  </div>
+                )}
               </form>
             </div>
           </div>
