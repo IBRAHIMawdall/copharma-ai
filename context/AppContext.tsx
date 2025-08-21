@@ -28,13 +28,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
-  const changeLang = (newLang) => {
+  const changeLang = (newLang: string) => {
     setLang(newLang)
     localStorage.setItem('language', newLang)
     document.dir = newLang === 'ar' ? 'rtl' : 'ltr'
   }
 
-  const changeTheme = (newTheme) => {
+  const changeTheme = (newTheme: string) => {
     setTheme(newTheme)
     localStorage.setItem('theme', newTheme)
     if (newTheme === 'dark') {
