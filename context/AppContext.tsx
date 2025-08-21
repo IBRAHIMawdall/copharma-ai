@@ -44,16 +44,20 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  const t = (key: string) => {
-    const keys = key.split('.')
-    let value = translations[lang as keyof typeof translations]
+  const t = (key: string): string => {
+    const keys = key.split('.');
+    let value: any = translations[lang as keyof typeof translations];
+
     for (const k of keys) {
-      if (value) {
-        value = value[k]
+      if (typeof value === 'object' && value !== null && k in value) {
+        value = value[k];
+      } else {
+        return key; // Return the key itself if path is invalid
       }
     }
-    return value || key
-  }
+
+    return typeof value === 'string' ? value : key;
+  };
 
   return (
     <AppContext.Provider value={{ lang, theme, changeLang, changeTheme, t }}>

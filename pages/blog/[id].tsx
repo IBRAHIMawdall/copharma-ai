@@ -4,7 +4,17 @@ import Footer from '../../components/Footer'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
-const articleContent = {
+interface Article {
+  title: string;
+  content: string;
+  image: string;
+  author: string;
+  date: string;
+  readTime: string;
+  category: string;
+}
+
+const articleContent: { [key: string]: Article } = {
   1: {
     title: "دور المكملات الغذائية في تعزيز المناعة",
     content: `
@@ -42,7 +52,8 @@ const articleContent = {
 export default function ArticlePage() {
   const router = useRouter()
   const { id } = router.query
-  const article = articleContent[id]
+  const articleId = Array.isArray(id) ? id[0] : id;
+  const article = articleId ? articleContent[articleId] : undefined;
 
   if (!article) return <div>جاري التحميل...</div>
 
