@@ -1,21 +1,10 @@
-import { useState, FormEvent, ChangeEvent } from 'react'
+import { useState, FormEvent } from 'react'
 import { motion } from 'framer-motion'
+import { sanitizeInput } from '../utils/security'
 
-interface Comment {
-  id: number;
-  user: string;
-  text: string;
-  date: string;
-  likes: number;
-}
-
-interface CommentsProps {
-  articleId: string;
-}
-
-export default function Comments({ articleId }: CommentsProps) {
+export default function Comments({ articleId }: { articleId: string | string[] }) {
   const [comment, setComment] = useState('')
-  const [comments, setComments] = useState<Comment[]>([
+  const [comments, setComments] = useState([
     {
       id: 1,
       user: "أحمد محمد",
@@ -25,27 +14,23 @@ export default function Comments({ articleId }: CommentsProps) {
     }
   ])
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     if (!comment.trim()) return
 
-    const newComment: Comment = {
+    // Sanitize comment text to prevent XSS
+    const sanitizedComment = sanitizeInput(comment)
+    
+    const newComment = {
       id: comments.length + 1,
-      user: "زائر", // In a real app, this would come from user session
-      text: comment,
+      user: "زائر",
+      text: sanitizedComment,
       date: new Date().toISOString().split('T')[0],
       likes: 0
     }
 
     setComments([newComment, ...comments])
     setComment('')
-  }
-
-  const handleLike = (id: number) => {
-    const updatedComments = comments.map(c => 
-      c.id === id ? { ...c, likes: c.likes + 1 } : c
-    )
-    setComments(updatedComments)
   }
 
   return (
@@ -55,7 +40,7 @@ export default function Comments({ articleId }: CommentsProps) {
       <form onSubmit={handleSubmit} className="mb-8">
         <textarea
           value={comment}
-          onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setComment(e.target.value)}
+          onChange={(e) => setComment(e.target.value)}
           placeholder="أضف تعليقك..."
           className="w-full p-4 border rounded-lg focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
           rows={3}
@@ -69,9 +54,9 @@ export default function Comments({ articleId }: CommentsProps) {
       </form>
 
       <div className="space-y-6">
-        {comments.map((comment) => (
+        {comments.map((commentItem) => (
           <motion.div
-            key={comment.id}
+            key={commentItem.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg"
@@ -79,22 +64,29 @@ export default function Comments({ articleId }: CommentsProps) {
             <div className="flex justify-between items-start mb-2">
               <div className="flex items-center">
                 <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white">
-                  {comment.user[0]}
+                  {commentItem.user?.[0] || '?'}
                 </div>
                 <div className="mr-3">
-                  <h4 className="font-medium text-gray-900 dark:text-white">{comment.user}</h4>
-                  <span className="text-sm text-gray-500 dark:text-gray-400">{comment.date}</span>
+                  <h4 className="font-medium text-gray-900 dark:text-white">{commentItem.user}</h4>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">{commentItem.date}</span>
                 </div>
               </div>
               <button 
-                onClick={() => handleLike(comment.id)}
+                onClick={() => {
+                  const updatedComments = comments.map(c => 
+                    c.id === commentItem.id ? { ...c, likes: c.likes + 1 } : c
+                  )
+                  setComments(updatedComments)
+                }}
                 className="flex items-center text-gray-500 hover:text-blue-600 dark:text-gray-400"
               >
-                <span className="mr-1">{comment.likes}</span>
+                <span className="mr-1">{commentItem.likes}</span>
                 ❤️
               </button>
             </div>
-            <p className="text-gray-600 dark:text-gray-300">{comment.text}</p>
+            <p className="text-gray-600 dark:text-gray-300">
+              {commentItem.text}
+            </p>
           </motion.div>
         ))}
       </div>

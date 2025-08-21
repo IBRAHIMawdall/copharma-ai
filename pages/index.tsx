@@ -5,6 +5,50 @@ import Footer from '../components/Footer'
 import Head from 'next/head'
 import { useApp } from '../context/AppContext'
 
+interface ServiceCardProps {
+  title: string;
+  description: string;
+}
+function ServiceCard({ title, description }: ServiceCardProps) {
+  return (
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow dark:bg-gray-800"
+    >
+      <motion.h3 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2 }}
+        className="text-xl font-semibold text-blue-600 dark:text-blue-400 mb-4 tracking-wide"
+      >
+        {title}
+      </motion.h3>
+      <motion.p 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3 }}
+        className="text-gray-600 dark:text-gray-300 leading-relaxed tracking-wide"
+      >
+        {description}
+      </motion.p>
+    </motion.div>
+  )
+}
+
+function FeatureCard({ icon, title, description }: { icon: string; title: string; description: string }) {
+  return (
+    <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl hover:shadow-lg transition duration-300">
+      <div className="text-4xl mb-4">{icon}</div>
+      <h3 className="text-xl font-semibold text-blue-600 dark:text-blue-400 mb-3">{title}</h3>
+      <p className="text-gray-600 dark:text-gray-300">{description}</p>
+    </div>
+  )
+}
+
 export default function Home() {
   const { t, lang, theme } = useApp()
 
@@ -51,25 +95,26 @@ export default function Home() {
                 </Link>
               </motion.div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Services Section */}
           <div className="py-16 px-8 bg-gray-50 dark:bg-gray-900">
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-12 text-center">خدماتنا</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <ServiceCard 
-                title={t('home.services.consultation.title')}
-                description={t('home.services.consultation.description')}
-              />
-              <ServiceCard 
-                title={t('home.services.monitoring.title')}
-                description={t('home.services.monitoring.description')}
-              />
-              <ServiceCard 
-                title={t('home.services.delivery.title')}
-                description={t('home.services.delivery.description')}
-              />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <ServiceCard 
+                  title={t('home.services.consultation.title')}
+                  description={t('home.services.consultation.description')}
+                />
+                <ServiceCard 
+                  title={t('home.services.monitoring.title')}
+                  description={t('home.services.monitoring.description')}
+                />
+                <ServiceCard 
+                  title={t('home.services.delivery.title')}
+                  description={t('home.services.delivery.description')}
+                />
+              </div>
             </div>
           </div>
 
@@ -108,46 +153,4 @@ export default function Home() {
   )
 }
 
-interface ServiceCardProps {
-  title: string;
-  description: string;
-}
-function ServiceCard({ title, description }: ServiceCardProps) {
-  return (
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow dark:bg-gray-800"
-    >
-      <motion.h3 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
-        className="text-xl font-semibold text-blue-600 dark:text-blue-400 mb-4 tracking-wide"
-      >
-        {title}
-      </motion.h3>
-      <motion.p 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.3 }}
-        className="text-gray-600 dark:text-gray-300 leading-relaxed tracking-wide"
-      >
-        {description}
-      </motion.p>
-    </motion.div>
-  )
-}
 
-function FeatureCard({ icon, title, description }: { icon: string; title: string; description: string }) {
-  return (
-    <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl hover:shadow-lg transition duration-300">
-      <div className="text-4xl mb-4">{icon}</div>
-      <h3 className="text-xl font-semibold text-blue-600 dark:text-blue-400 mb-3">{title}</h3>
-      <p className="text-gray-600 dark:text-gray-300">{description}</p>
-    </div>
-  )
-}

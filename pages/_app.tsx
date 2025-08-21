@@ -1,12 +1,15 @@
 import { AppProps } from 'next/app'
 import { AppProvider } from '../context/AppContext'
+import ErrorBoundary from '../components/ErrorBoundary'
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <AppProvider>
-      <Component {...pageProps} />
-    </AppProvider>
+    <ErrorBoundary>
+      <AppProvider>
+        <Component {...pageProps} />
+      </AppProvider>
+    </ErrorBoundary>
   )
 }
 

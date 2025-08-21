@@ -1,18 +1,16 @@
 import { useState, useEffect } from 'react'
 
-interface ThemeLanguageSelectorProps {
+export default function ThemeLanguageSelector({
+  currentLang,
+  onLanguageChange,
+  currentTheme,
+  onThemeChange
+}: {
   currentLang: string;
   onLanguageChange: (lang: string) => void;
   currentTheme: string;
   onThemeChange: (theme: string) => void;
-}
-
-export default function ThemeLanguageSelector({ 
-  currentLang, 
-  onLanguageChange,
-  currentTheme,
-  onThemeChange 
-}: ThemeLanguageSelectorProps) {
+}) {
   const languages = [
     { code: 'ar', name: 'العربية' },
     { code: 'en', name: 'English' },

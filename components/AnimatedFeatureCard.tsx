@@ -12,6 +12,7 @@ export function AnimatedFeatureCard({ icon, title, description, index }: Animate
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.2 }}
       whileHover={{ scale: 1.05 }}
       className="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"

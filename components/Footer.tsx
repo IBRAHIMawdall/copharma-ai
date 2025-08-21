@@ -2,8 +2,14 @@ import Link from 'next/link'
 import { useApp } from '../context/AppContext'
 
 export default function Footer() {
-  const { t } = useApp()
+  const app = useApp()
   
+  if (!app) {
+    return null; // Or a loading spinner, or a fallback UI
+  }
+
+  const { t } = app;
+
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">

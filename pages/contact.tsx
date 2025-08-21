@@ -1,61 +1,50 @@
 import Head from 'next/head'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import { useState, ChangeEvent, FormEvent } from 'react'
+import { useState, FormEvent } from 'react'
+import { sanitizeFormData, isValidEmail } from '../utils/security'
 
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  message: string;
-}
 export default function Contact() {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     message: ''
   })
 
-  const [submitting, setSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState('')
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSubmitting(true);
-    setSubmitSuccess(false);
-    setSubmitError(null);
-
+    e.preventDefault()
+    setIsSubmitting(true)
+    setSubmitMessage('')
+    
     try {
-      const response = await fetch('https://formspree.io/f/YOUR_FORM_ID_CONTACT', { // <-- استبدل هذا بمعرف النموذج الخاص بك
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        setSubmitSuccess(true);
-        setFormData({ // Reset form
-          name: '',
-          email: '',
-          phone: '',
-          message: ''
-        });
-      } else {
-        throw new Error('حدث خطأ أثناء إرسال رسالتك. الرجاء المحاولة مرة أخرى.');
+      // Sanitize and validate form data
+      const sanitizedData = sanitizeFormData(formData)
+      
+      if (!sanitizedData.name || !sanitizedData.email || !sanitizedData.message) {
+        throw new Error('يرجى ملء جميع الحقول المطلوبة')
       }
-    } catch (error: any) {
-      setSubmitError(error.message);
+      
+      if (!isValidEmail(sanitizedData.email)) {
+        throw new Error('يرجى إدخال بريد إلكتروني صحيح')
+      }
+      
+      // TODO: إضافة منطق إرسال النموذج
+      // console.log(sanitizedData) // Remove in production
+      
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      setSubmitMessage('تم إرسال رسالتك بنجاح!')
+      setFormData({ name: '', email: '', phone: '', message: '' })
+    } catch (error) {
+      setSubmitMessage(error instanceof Error ? error.message : 'حدث خطأ أثناء إرسال الرسالة')
     } finally {
-      setSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   return (
@@ -94,64 +83,55 @@ export default function Contact() {
                   <div>
                     <label className="block text-gray-700 mb-2">الاسم</label>
                     <input
-                      name="name"
                       type="text"
                       required
                       className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={formData.name}
-                      onChange={handleChange}
+                      onChange={(e) => setFormData({...formData, name: e.target.value})}
                     />
                   </div>
                   <div>
                     <label className="block text-gray-700 mb-2">البريد الإلكتروني</label>
                     <input
-                      name="email"
                       type="email"
                       required
                       className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={formData.email}
-                      onChange={handleChange}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
                     />
                   </div>
                   <div>
                     <label className="block text-gray-700 mb-2">رقم الهاتف</label>
                     <input
-                      name="phone"
                       type="tel"
                       className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={formData.phone}
-                      onChange={handleChange}
+                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
                     />
                   </div>
                   <div>
                     <label className="block text-gray-700 mb-2">الرسالة</label>
                     <textarea
-                      name="message"
                       required
                       rows={4}
                       className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={formData.message}
-                      onChange={handleChange}
+                      onChange={(e) => setFormData({...formData, message: e.target.value})}
                     ></textarea>
                   </div>
+                  {submitMessage && (
+                    <div className={`p-3 rounded ${submitMessage.includes('نجاح') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                      {submitMessage}
+                    </div>
+                  )}
                   <button
                     type="submit"
-                    disabled={submitting}
-                    className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition disabled:bg-gray-400"
+                    disabled={isSubmitting}
+                    className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {submitting ? 'جارٍ الإرسال...' : 'إرسال الرسالة'}
+                    {isSubmitting ? 'جاري الإرسال...' : 'إرسال الرسالة'}
                   </button>
                 </div>
-                {submitSuccess && (
-                  <div className="mt-4 p-3 text-center text-green-800 bg-green-100 border border-green-300 rounded-lg">
-                    تم استلام رسالتك بنجاح! سنتواصل معك قريبًا.
-                  </div>
-                )}
-                {submitError && (
-                  <div className="mt-4 p-3 text-center text-red-800 bg-red-100 border border-red-300 rounded-lg">
-                    {submitError}
-                  </div>
-                )}
               </form>
             </div>
           </div>

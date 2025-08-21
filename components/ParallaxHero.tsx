@@ -1,7 +1,7 @@
 import { useScroll, useTransform, motion } from 'framer-motion'
-import { useRef, ReactNode } from 'react'
+import { useRef } from 'react'
 
-export default function ParallaxHero({ children }: { children: ReactNode }) {
+export default function ParallaxHero({ children }: { children: React.ReactNode }) {
   const ref = useRef(null)
   const { scrollYProgress } = useScroll({
     target: ref,

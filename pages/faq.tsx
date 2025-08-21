@@ -71,7 +71,7 @@ const FaqItem = ({ question, answer, isOpen, onClick }: FaqItemProps) => {
 }
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState(null)
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   return (
     <>

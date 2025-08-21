@@ -2,27 +2,31 @@ import Head from 'next/head'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 
+const products = [
+  {
+    id: 1,
+    name: "فيتامين د",
+    price: "45 درهم",
+    description: "مكمل غذائي يومي لدعم صحة العظام",
+    category: "فيتامينات"
+  },
+  {
+    id: 2,
+    name: "جهاز قياس الضغط",
+    price: "199 درهم",
+    description: "جهاز رقمي دقيق لقياس ضغط الدم",
+    category: "أجهزة طبية"
+  },
+  {
+    id: 3,
+    name: "كمامات طبية",
+    price: "25 درهم",
+    description: "علبة تحتوي على 50 كمامة طبية",
+    category: "مستلزمات طبية"
+  }
+]
+
 export default function Products() {
-  const products = [
-    {
-      name: "فيتامين د",
-      price: "45 درهم",
-      description: "مكمل غذائي يومي لدعم صحة العظام",
-      category: "فيتامينات"
-    },
-    {
-      name: "جهاز قياس الضغط",
-      price: "199 درهم",
-      description: "جهاز رقمي دقيق لقياس ضغط الدم",
-      category: "أجهزة طبية"
-    },
-    {
-      name: "كمامات طبية",
-      price: "25 درهم",
-      description: "علبة تحتوي على 50 كمامة طبية",
-      category: "مستلزمات طبية"
-    }
-  ]
 
   return (
     <>
@@ -36,8 +40,8 @@ export default function Products() {
           <div className="max-w-6xl mx-auto">
             <h1 className="text-4xl font-bold text-blue-600 mb-8 text-center">منتجاتنا</h1>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {products.map((product, index) => (
-                <div key={index} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+              {products.map((product) => (
+                <div key={product.id} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition">
                   <span className="inline-block bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm mb-3">
                     {product.category}
                   </span>

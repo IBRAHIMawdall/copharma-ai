@@ -55,7 +55,16 @@ export default function ArticlePage() {
   const articleId = Array.isArray(id) ? id[0] : id;
   const article = articleId ? articleContent[articleId] : undefined;
 
-  if (!article) return <div>جاري التحميل...</div>
+  if (!article) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">المقال غير موجود</h1>
+          <p className="text-gray-600 dark:text-gray-400">عذراً، لم نتمكن من العثور على المقال المطلوب.</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <>
@@ -112,9 +121,10 @@ export default function ArticlePage() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.5 }}
-                  className="prose dark:prose-invert max-w-none"
-                  dangerouslySetInnerHTML={{ __html: article.content.replace(/\\n/g, '<br/>') }}
-                />
+                  className="prose dark:prose-invert max-w-none whitespace-pre-line"
+                >
+                  {article.content}
+                </motion.div>
 
                 <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
                   <div className="flex items-center">

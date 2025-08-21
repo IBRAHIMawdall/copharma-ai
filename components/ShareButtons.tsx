@@ -4,26 +4,29 @@ interface ShareButtonsProps {
 }
 
 export default function ShareButtons({ url, title }: ShareButtonsProps) {
+  // Sanitize inputs to prevent XSS
+  const sanitizedUrl = encodeURIComponent(url || '')
+  const sanitizedTitle = encodeURIComponent(title || '')
   const shareLinks = [
     {
       name: 'Twitter',
       icon: '𝕏',
-      url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`
+      url: `https://twitter.com/intent/tweet?text=${sanitizedTitle}&url=${sanitizedUrl}`
     },
     {
       name: 'Facebook',
       icon: 'f',
-      url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`
+      url: `https://www.facebook.com/sharer/sharer.php?u=${sanitizedUrl}`
     },
     {
       name: 'WhatsApp',
       icon: '📱',
-      url: `https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`
+      url: `https://wa.me/?text=${encodeURIComponent((title || '') + ' ' + (url || ''))}`
     },
     {
       name: 'Telegram',
       icon: '✈️',
-      url: `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`
+      url: `https://t.me/share/url?url=${sanitizedUrl}&text=${sanitizedTitle}`
     }
   ]
 

@@ -1,9 +1,15 @@
 import Link from 'next/link'
-import { useApp } from '../context/AppContext'
+import { useApp, AppContextType } from '../context/AppContext'
 import ThemeLanguageSelector from './ThemeLanguageSelector'
 
 export default function Navbar() {
-  const { t, lang, changeLang, theme, changeTheme } = useApp()
+  const app = useApp()
+
+  if (!app) {
+    return null; // Or a loading spinner, or a fallback UI
+  }
+
+  const { t } = app as AppContextType;
 
   return (
     <nav className="sticky top-0 z-50 bg-white dark:bg-gray-800 shadow-md">
@@ -22,14 +28,12 @@ export default function Navbar() {
             <NavLink href="/contact">{t('nav.contact')}</NavLink>
           </div>
 
-          <div className="flex items-center">
-            <ThemeLanguageSelector 
-              currentLang={lang}
-              onLanguageChange={changeLang}
-              currentTheme={theme}
-              onThemeChange={changeTheme}
-            />
-          </div>
+          <ThemeLanguageSelector 
+            currentLang={app.lang}
+            onLanguageChange={app.changeLang}
+            currentTheme={app.theme}
+            onThemeChange={app.changeTheme}
+          />
         </div>
       </div>
     </nav>
