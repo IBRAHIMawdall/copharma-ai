@@ -1,4 +1,9 @@
-export default function ShareButtons({ url, title }) {
+interface ShareButtonsProps {
+  url: string;
+  title: string;
+}
+
+export default function ShareButtons({ url, title }: ShareButtonsProps) {
   const shareLinks = [
     {
       name: 'Twitter',
