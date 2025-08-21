@@ -46,9 +46,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const t = (key: string) => {
     const keys = key.split('.')
-    let value = translations[lang]
+    let value = translations[lang as keyof typeof translations]
     for (const k of keys) {
-      value = value?.[k]
+      if (value) {
+        value = value[k]
+      }
     }
     return value || key
   }
