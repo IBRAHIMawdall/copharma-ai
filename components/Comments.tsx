@@ -18,19 +18,24 @@ export default function Comments({ articleId }: { articleId: string | string[] }
     e.preventDefault()
     if (!comment.trim()) return
 
-    // Sanitize comment text to prevent XSS
-    const sanitizedComment = sanitizeInput(comment)
-    
-    const newComment = {
-      id: comments.length + 1,
-      user: "زائر",
-      text: sanitizedComment,
-      date: new Date().toISOString().split('T')[0],
-      likes: 0
-    }
+    try {
+      // Sanitize comment text to prevent XSS
+      const sanitizedComment = sanitizeInput(comment)
+      if (!sanitizedComment) return
+      
+      const newComment = {
+        id: Date.now(), // Use timestamp for unique ID
+        user: "زائر",
+        text: sanitizedComment,
+        date: new Date().toISOString().split('T')[0],
+        likes: 0
+      }
 
-    setComments([newComment, ...comments])
-    setComment('')
+      setComments([newComment, ...comments])
+      setComment('')
+    } catch (error) {
+      console.error('Error adding comment:', error)
+    }
   }
 
   return (

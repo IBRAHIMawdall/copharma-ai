@@ -45,9 +45,9 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-xl font-semibold text-white tracking-wide">تواصل معنا</h3>
             <ul className="space-y-3 leading-relaxed tracking-wide">
-              <li>مستشفى برجيل - أبوظبي</li>
-              <li dir="ltr">+971 58 500 4660</li>
-              <li dir="ltr">copharma.ai@gmail.com</li>
+              <li>أبوظبي، الإمارات العربية المتحدة</li>
+              <li dir="ltr">+971 4 123 4567</li>
+              <li dir="ltr">info@copharma.ai</li>
             </ul>
           </div>
         </div>

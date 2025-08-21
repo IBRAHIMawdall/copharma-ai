@@ -8,9 +8,16 @@ interface SEOProps {
 }
 
 export default function SEO({ title, description, image, url }: SEOProps) {
+  // Validate required props
+  if (!title?.trim() || !description?.trim() || !url?.trim()) {
+    console.warn('SEO component: Missing required props')
+    return null
+  }
+
   const siteTitle = "CoPharma.ai - صيدليتك الذكية"
-  const fullTitle = `${title} | ${siteTitle}`
+  const fullTitle = `${title.trim()} | ${siteTitle}`
   const defaultImage = "https://copharma.ai/og-image.jpg"
+  const validUrl = url.startsWith('http') ? url : `https://copharma.ai${url}`
 
   return (
     <Head>
@@ -22,7 +29,7 @@ export default function SEO({ title, description, image, url }: SEOProps) {
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image || defaultImage} />
-      <meta property="og:url" content={url} />
+      <meta property="og:url" content={validUrl} />
       
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
@@ -33,7 +40,7 @@ export default function SEO({ title, description, image, url }: SEOProps) {
       {/* Additional SEO */}
       <meta name="robots" content="index, follow" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="canonical" href={url} />
+      <link rel="canonical" href={validUrl} />
       
       {/* Schema.org */}
       <script
@@ -45,7 +52,7 @@ export default function SEO({ title, description, image, url }: SEOProps) {
             headline: title,
             description: description,
             image: image || defaultImage,
-            url: url
+            url: validUrl
           })
         }}
       />

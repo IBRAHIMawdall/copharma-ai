@@ -4,9 +4,9 @@ import Footer from '../components/Footer'
 
 export default function ContactInfo() {
   const contactInfo = {
-    address: "مستشفى برجيل - أبوظبي، الإمارات العربية المتحدة",
-    mobile: "+971 58 500 4660",
-    email: "copharma.ai@gmail.com",
+    address: "مركز CoPharma.ai الطبي - أبوظبي، الإمارات العربية المتحدة",
+    mobile: "+971 4 123 4567",
+    email: "info@copharma.ai",
     workingHours: {
       weekdays: "9:00 صباحاً - 10:00 مساءً",
       weekends: "10:00 صباحاً - 8:00 مساءً"

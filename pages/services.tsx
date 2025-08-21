@@ -38,8 +38,8 @@ export default function Services() {
           <div className="max-w-6xl mx-auto">
             <h1 className="text-4xl font-bold text-blue-600 mb-8 text-center">خدماتنا</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {services.map((service, index) => (
-                <div key={index} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+              {services.map((service) => (
+                <div key={service.title} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition">
                   <div className="text-3xl mb-4">{service.icon}</div>
                   <h2 className="text-xl font-semibold text-blue-600 mb-3">{service.title}</h2>
                   <p className="text-gray-600">{service.description}</p>
