@@ -107,7 +107,7 @@ export default function Home() {
                 className="text-xl md:text-3xl mb-8 max-w-4xl leading-relaxed font-light text-center"
                 style={{ fontFamily: 'Cairo, sans-serif' }}
               >
-                منصة صيدلانية ذكية لرعاية صحية شاملة ومتطورة
+                منصة التطوير المهني للعاملين في القطاع الطبي
               </motion.p>
               
               <motion.p 
@@ -117,7 +117,7 @@ export default function Home() {
                 className="text-lg md:text-xl mb-12 max-w-3xl text-blue-100 text-center"
                 style={{ fontFamily: 'Cairo, sans-serif' }}
               >
-                استشارات دوائية متخصصة • متابعة علاجية دقيقة • توصيل آمن للأدوية
+                تطوير مهني • استشارات متخصصة • محتوى تعليمي متقدم
               </motion.p>
               
               <motion.div
@@ -141,16 +141,16 @@ export default function Home() {
                 className="mt-16 flex items-center justify-center space-x-8 rtl:space-x-reverse"
               >
                 <div className="text-center">
-                  <div className="text-3xl font-bold">1000+</div>
-                  <div className="text-sm text-blue-200">مريض راضٍ</div>
+                  <div className="text-3xl font-bold">20K-50K</div>
+                  <div className="text-sm text-blue-200">الراتب المستهدف (درهم)</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold">24/7</div>
-                  <div className="text-sm text-blue-200">دعم متواصل</div>
+                  <div className="text-3xl font-bold">6</div>
+                  <div className="text-sm text-blue-200">خدمات متخصصة</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold">15+</div>
-                  <div className="text-sm text-blue-200">صيدلي متخصص</div>
+                  <div className="text-3xl font-bold">60+</div>
+                  <div className="text-sm text-blue-200">عام خبرة مجتمعة</div>
                 </div>
               </motion.div>
             </div>
@@ -171,7 +171,7 @@ export default function Home() {
                   خدماتنا المتميزة
                 </h2>
                 <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                  نقدم مجموعة شاملة من الخدمات الصيدلانية المتطورة لضمان أفضل رعاية صحية لك
+                  نقدم خدمات تطوير مهني متخصصة للعاملين في القطاع الطبي بالإمارات والخليج
                 </p>
               </motion.div>
               
@@ -183,8 +183,8 @@ export default function Home() {
                   transition={{ duration: 0.6, delay: 0.1 }}
                 >
                   <ServiceCard 
-                    title="استشارات دوائية متخصصة"
-                    description="احصل على استشارات دوائية من صيادلة متخصصين لضمان الاستخدام الآمن والفعال للأدوية"
+                    title="التطوير المهني للصيادلة"
+                    description="كورسات تخصصية أونلاين مع شهادات معتمدة وورش عمل متقدمة لتطوير مهاراتك المهنية"
                   />
                 </motion.div>
                 
@@ -195,8 +195,8 @@ export default function Home() {
                   transition={{ duration: 0.6, delay: 0.2 }}
                 >
                   <ServiceCard 
-                    title="متابعة العلاج الشخصية"
-                    description="خطة متابعة مخصصة لحالتك الصحية مع تذكيرات ذكية ومراقبة مستمرة لتقدم العلاج"
+                    title="الاستشارات المهنية"
+                    description="تطوير السيرة الذاتية الطبية واستشارات الترقية والتحضير لامتحانات الاعتماد"
                   />
                 </motion.div>
                 
@@ -207,8 +207,8 @@ export default function Home() {
                   transition={{ duration: 0.6, delay: 0.3 }}
                 >
                   <ServiceCard 
-                    title="توصيل الأدوية السريع"
-                    description="خدمة توصيل آمنة وسريعة للأدوية إلى منزلك مع ضمان جودة التخزين والنقل"
+                    title="المحتوى التعليمي المتخصص"
+                    description="مقالات طبية متقدمة ومحاضرات تفاعلية وورش عمل أونلاين للعاملين في القطاع الطبي"
                   />
                 </motion.div>
               </div>
@@ -218,17 +218,17 @@ export default function Home() {
           {/* Features Section */}
           <div className="py-16 px-8 bg-white dark:bg-gray-800">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-12 text-center">لماذا CoPharma.ai؟</h2>
+              <h2 className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-12 text-center">لماذا تختار CoPharma.ai؟</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <FeatureCard
-                  icon="🔒"
-                  title="موثوق وآمن"
-                  description="خدمات صيدلانية معتمدة ومرخصة من الجهات المختصة"
+                  icon="🎯"
+                  title="مصمم للمهنيين"
+                  description="خدمات متخصصة للعاملين في القطاع الطبي بالإمارات والخليج"
                 />
                 <FeatureCard
-                  icon="⚡"
-                  title="سريع وفعال"
-                  description="استشارات فورية وخدمة توصيل سريعة للأدوية"
+                  icon="📈"
+                  title="تطوير مهني متقدم"
+                  description="كورسات وبرامج تدريبية مع شهادات معتمدة"
                 />
                 <FeatureCard
                   icon="👨‍⚕️"
@@ -236,9 +236,9 @@ export default function Home() {
                   description="فريق من الصيادلة المتخصصين ذوي الخبرة"
                 />
                 <FeatureCard
-                  icon="💊"
-                  title="متابعة مستمرة"
-                  description="متابعة دورية لخطتك العلاجية وتذكير بمواعيد الدواء"
+                  icon="💰"
+                  title="عائد استثمار مضمون"
+                  description="استثمار في مسيرتك المهنية مع عائد مضمون على المدى الطويل"
                 />
               </div>
             </div>
